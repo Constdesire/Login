@@ -26,7 +26,16 @@ public class LoginService {
     }
 
     public Login atualizar(String id, Login login) {
-        return repository.update(id, login);
+        String senhaCriptografada = passwordEncoder.encode(login.password());
+
+        Login loginAtualizado = new Login(
+                id,
+                login.username(),
+                senhaCriptografada,
+                login.roles()
+        );
+
+        return repository.update(id, loginAtualizado);
     }
 
     public void apagar(String id) {

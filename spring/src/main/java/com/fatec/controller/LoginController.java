@@ -34,4 +34,20 @@ public class LoginController {
         return "Acesso autorizado! O Token JWT funciona.";
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/v1/update/{id}")
+    public LoginResponse update(@PathVariable("id") String id, @RequestBody LoginRequest request) {
+        Login updated = service.atualizar(id, LoginControllerAdapter.castRequest(request));
+        return new LoginResponse(
+                updated.id(),
+                updated.username(),
+                updated.roles()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/v1/delete/{id}")
+    public void delete(@PathVariable("id") String id) {
+        service.apagar(id);
+    }
 }
