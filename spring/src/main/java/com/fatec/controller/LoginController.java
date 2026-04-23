@@ -5,38 +5,33 @@ import com.fatec.controller.dto.request.LoginRequest;
 import com.fatec.controller.dto.response.LoginResponse;
 import com.fatec.entity.Login;
 import com.fatec.service.LoginService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/logins")
+@RequestMapping("/fatec/login")
 public class LoginController {
-
     private final LoginService service;
 
     public LoginController(LoginService service) {
         this.service = service;
     }
 
-    @PostMapping
-    public LoginResponse criar(@RequestBody LoginRequest request) {
-        Login loginParaSalvar = LoginControllerAdapter.castRequest(request);
-        Login loginSalvo = service.salvar(loginParaSalvar);
-        return LoginControllerAdapter.castResponse(loginSalvo);
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/v1/save")
+    public LoginResponse save(@RequestBody LoginRequest request) {
+        Login save = service.salvar(LoginControllerAdapter.castRequest(request));
+        return new LoginResponse(
+                save.id(),
+                save.username(),
+                save.roles()
+        );
     }
 
-    @PutMapping("/{id}")
-    public LoginResponse atualizar(@PathVariable String id, @RequestBody LoginRequest request) {
-        Login loginParaAtualizar = LoginControllerAdapter.castRequest(request);
-        return LoginControllerAdapter.castResponse(service.atualizar(id, loginParaAtualizar));
+    @GetMapping("/v1/validar-acesso")
+    public String validar() {
+        return "Acesso autorizado! O Token JWT funciona.";
     }
 
-    @DeleteMapping("/{id}")
-    public void apagar(@PathVariable String id) {
-        service.apagar(id);
-    }
-
-    @GetMapping
-    public String realizarLogin() {
-        return "realizar Login";
-    }
 }

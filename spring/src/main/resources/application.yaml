@@ -4,14 +4,8 @@ server:
 spring:
   application:
     name: login
-  data:
-    mongodb:
-      auto-index-creation: true
-      uri: mongodb://localhost:27017/login_db
-
-      logging:
-        level:
-          org:
-            springframework:
-              data:
-                mongodb=DEBUG:
+  mongodb:
+    uri: mongodb://localhost:27017/login_db
+    data:
+      mongodb:
+        auto-index-creation: true

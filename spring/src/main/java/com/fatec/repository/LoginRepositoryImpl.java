@@ -1,14 +1,15 @@
-package com.fatec.repository.orm;
+package com.fatec.repository;
 
 import com.fatec.entity.Login;
-import com.fatec.repository.LoginRepository;
 import com.fatec.repository.adapter.LoginRepositoryAdapter;
 import com.fatec.repository.mongo.LoginRepositoryWithMongoDB;
-import org.springframework.stereotype.Component;
+import com.fatec.repository.orm.LoginOrmMongo;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Component
+@Repository
 public class LoginRepositoryImpl implements LoginRepository {
 
     private final LoginRepositoryWithMongoDB mongo;
@@ -33,7 +34,6 @@ public class LoginRepositoryImpl implements LoginRepository {
         );
 
         LoginOrmMongo ormSalvo = mongo.save(orm);
-
         return LoginRepositoryAdapter.castOrm(ormSalvo);
     }
 
@@ -45,5 +45,24 @@ public class LoginRepositoryImpl implements LoginRepository {
     @Override
     public Optional<Login> findById(String id) {
         return mongo.findById(id).map(LoginRepositoryAdapter::castOrm);
+    }
+
+    @Override
+    public Login findByUsername(String username) {
+        try {
+
+            Optional<LoginOrmMongo> optional = mongo.findByUsername(username);
+
+            if (optional.isEmpty()) {
+                throw new UsernameNotFoundException("Usuário não encontrado: " + username);
+            }
+
+            return LoginRepositoryAdapter.castOrm(optional.get());
+
+        } catch (UsernameNotFoundException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new RuntimeException("Erro técnico ao acessar o banco de dados", ex);
+        }
     }
 }

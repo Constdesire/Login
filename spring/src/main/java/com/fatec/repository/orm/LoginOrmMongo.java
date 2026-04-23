@@ -1,5 +1,6 @@
 package com.fatec.repository.orm;
 
+import com.fatec.entity.enumerable.UserRole;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
@@ -10,6 +11,6 @@ public record LoginOrmMongo(
         String id,
         String username,
         String password,
-        List<String> roles
+        List<UserRole> roles
 ) {
 }

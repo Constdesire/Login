@@ -3,17 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.fatec</groupId>
-        <artifactId>login-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
-
+    <groupId>com.fatec</groupId>
     <artifactId>domain</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>domain</name>
 
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+            <version>7.0.4</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 </project>

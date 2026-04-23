@@ -3,6 +3,7 @@ package com.fatec.controller.adapter;
 import com.fatec.controller.dto.request.LoginRequest;
 import com.fatec.controller.dto.response.LoginResponse;
 import com.fatec.entity.Login;
+import com.fatec.entity.enumerable.UserRole;
 
 import java.util.UUID;
 

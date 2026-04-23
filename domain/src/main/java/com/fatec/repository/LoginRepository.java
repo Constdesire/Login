@@ -8,4 +8,5 @@ public interface LoginRepository {
     Login update(String id, Login login);
     void delete(String id);
     Optional<Login> findById(String id);
+    Login findByUsername(String username);
 }
